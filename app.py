@@ -6,8 +6,11 @@ from PIL import Image, ImageOps
 import tensorflow as tf
 
 app = Flask(__name__)
-
-model = tf.keras.models.load_model('model')
+json_file = open('./model/model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+model = tf.keras.models.model_from_json(loaded_model_json)
+model.load_weights("./model/model.h5")
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
